@@ -1,22 +1,22 @@
-import { Context } from 'koa';
-import ContextFactory from '../context-factory';
+import { Context as KoaContext } from 'koa';
+import Context from '../../context';
 
 // Tries to authorize this request. It's up the the next middleware
 // to decide what to do in unauthorized cases.
-export async function tryAuth(ctx: Context, next: () => Promise<any>) {
+export async function tryAuth(ctx: KoaContext, next: () => Promise<any>) {
   const token = ctx.get('Authorization');
 
   if (!token) {
-    return await next();
+    return next();
   }
 
-  const contextFactory = ctx.state.contextFactory as ContextFactory;
+  const contextFactory = ctx.state.contextFactory as Context;
 
   try {
     await contextFactory.authFactory.authorize(token);
   } catch (err) {
-    return await next();
+    return next();
   }
 
-  return await next();
+  return next();
 }

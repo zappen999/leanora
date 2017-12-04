@@ -1,7 +1,7 @@
-import { Context } from 'koa';
-import ContextFactory from '../context-factory';
+import { Context as KoaContext } from 'koa';
+import Context from '../../context';
 
-export async function injectContext(ctx: Context, next: () => Promise<any>) {
-  ctx.state.contextFactory = new ContextFactory();
-  return await next();
+export async function injectContext(ctx: KoaContext, next: () => Promise<any>) {
+  ctx.state.contextFactory = new Context();
+  return next();
 }

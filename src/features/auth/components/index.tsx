@@ -1,5 +1,5 @@
 export class Container  {
-  render() {
+  public render() {
     return null;
   }
 }

@@ -3,18 +3,18 @@ import * as jwt from 'jsonwebtoken';
 import config from '../../config';
 
 // todo: in-memory db until we know which database engine/structure we want
-const identities: Array<Identity> = [];
+const identities: Identity[] = [];
 
-export type TokenData = {
+export interface ITokenData {
   id: string;
-  grants: Array<Grant>;
+  grants: Grant[];
 }
 
 export class AuthConnector implements IAuthConnector {
-  async authenticate(id: string, password: string): Promise<AuthIdentity> {
+  public async authenticate(id: string, password: string): Promise<AuthIdentity> {
     // todo: replace with real mechanism to authenticate this identity
     const identity = identities
-      .find(i => i.id === id && i.password === password);
+      .find((i) => i.id === id && i.password === password);
 
     if (!identity) {
       throw new Error('Invalid id or password');
@@ -25,7 +25,7 @@ export class AuthConnector implements IAuthConnector {
     const tokenData = {
       id: identity.id,
       grants: []
-    } as TokenData;
+    } as ITokenData;
     const token = await this.signJWT(
       tokenData,
       config.auth.ttl,
@@ -69,7 +69,7 @@ export class AuthConnector implements IAuthConnector {
   }
 
   protected async signJWT(
-    data: TokenData,
+    data: ITokenData,
     expiresIn: string,
     secret: string
   ): Promise<string> {

@@ -1,10 +1,10 @@
-import Context from 'context';
+import Context from '../../context';
 
 import {
   types as authTypes,
   resolvers as authResolvers,
   AuthIdentity,
-} from 'features/auth';
+} from '../../features/auth';
 
 const Query = `
   scalar Date
@@ -23,10 +23,11 @@ async function authIdentity(
   return ctx.authFactory.getCurrentIdentity();
 }
 
-export const resolvers = Object.assign({
+export const resolvers = {
   Query: {
     authIdentity,
   },
-}, authResolvers);
+  ...authResolvers,
+};
 
 export const types = () => [Query, authTypes];

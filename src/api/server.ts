@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
-import logger from 'utils/logging';
+import logger from '../utils/logging';
 import { cors, tryAuth, injectContext, version } from './middleware';
 import router from './controllers';
 

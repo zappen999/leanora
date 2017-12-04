@@ -1,4 +1,4 @@
-import Context from 'context';
+import Context from '../../context';
 
 const Mutation = `
   type Mutation {
@@ -18,17 +18,17 @@ const Mutation = `
   }
 `;
 
-type AuthenticateArgs = {
+interface IAuthenticateArgs {
   id: string;
   password: string;
 }
 
-type RegisterArgs = AuthenticateArgs & {}
+type RegisterArgs = IAuthenticateArgs & {};
 
 async function authenticate(
   root,
-  args: AuthenticateArgs,
-  ctx: Context
+  args: IAuthenticateArgs,
+  ctx: Context,
 ): Promise<any> {
   return ctx.authFactory.authenticate(args.id, args.password);
 }
@@ -36,7 +36,7 @@ async function authenticate(
 async function register(
   root,
   args: RegisterArgs,
-  ctx: Context
+  ctx: Context,
 ): Promise<any> {
   return ctx.authFactory.register(args.id, args.password);
 }

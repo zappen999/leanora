@@ -1,11 +1,11 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import {
   types as queryTypes,
-  resolvers as queryResolvers
+  resolvers as queryResolvers,
 } from './query';
 import {
   types as mutationTypes,
-  resolvers as mutationResolvers
+  resolvers as mutationResolvers,
 } from './mutation';
 
 const schemaDefinition = `
@@ -21,10 +21,12 @@ const combinedSchemas = [
   mutationTypes,
 ];
 
-const resolvers = Object.assign({}, queryResolvers, mutationResolvers);
+const resolvers = {
+  ...queryResolvers,
+  ...mutationResolvers,
+};
 
 export const schema = makeExecutableSchema({
   typeDefs: combinedSchemas,
   resolvers,
 });
-
