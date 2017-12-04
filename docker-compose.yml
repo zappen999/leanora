@@ -10,7 +10,7 @@ services:
       - ./src:/home/node/app/src
       - ./scripts:/home/node/app/scripts
       - ./package.json:/home/node/app/package.json
-      - ./package.lock:/home/node/app/package.lock
+      - ./package-lock.json:/home/node/app/package-lock.json
       - ./tsconfig.json:/home/node/app/tsconfig.json
     ports:
       - 8000:8000

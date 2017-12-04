@@ -1,7 +1,7 @@
 #!/bin/bash
 # SIGTERM handler
 handler() {
-  if [ $pid -ne 0 ]; then # 0 is the docker entrypoint
+  if [ $API_PID -ne 0 ]; then # 0 is the docker entrypoint
     # tell the node processes to gracefully shut down
     kill -SIGTERM "$API_PID"
     kill -SIGTERM "$APP_PID"
@@ -27,13 +27,13 @@ elif [ "$NODE_ENV" = "development" ]; then
   ./node_modules/.bin/nodemon --inspect=9222 --exec ./node_modules/.bin/ts-node src/api/server.ts &
 
   API_PID="$!"
-  echo "API process $pid spawned"
+  echo "API process $API_PID spawned"
 
   # Start app in development mode
   # webpack magic? todo: start dev server
   tail -f /dev/null & # tmp, replace this with dev server
   APP_PID="$!"
-  echo "APP process $pid spawned"
+  echo "APP process $APP_PID spawned"
 fi
 
 # wait forever
