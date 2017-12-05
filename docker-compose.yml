@@ -1,7 +1,9 @@
 version: '2'
 services:
   service: # Main
-    build: .
+    build:
+      context: .
+      dockerfile: buildsystem/Dockerfile
     environment:
       NODE_ENV: 'development'
       APP_LOG: '/var/log/app.log'

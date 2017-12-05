@@ -1,10 +1,10 @@
-import { Context } from 'koa';
-import env from '../env';
+import { Context as KoaContext } from 'koa';
+import env from '../../env';
 
 /**
  * Handle Cross Origin Resource Sharing (CORS)
  */
-export async function cors(ctx: Context, next: () => Promise<any>) {
+export async function cors(ctx: KoaContext, next: () => Promise<any>) {
   if (env.isDev()) {
     ctx.set('Access-Control-Allow-Origin', '*');
   }

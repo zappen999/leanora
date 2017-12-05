@@ -3,7 +3,7 @@ import Context from '../../context';
 import {
   types as authTypes,
   resolvers as authResolvers,
-  AuthIdentity,
+  IAuthIdentity,
 } from '../../features/auth';
 
 const Query = `
@@ -19,7 +19,7 @@ async function authIdentity(
   root,
   args,
   ctx: Context,
-): Promise<AuthIdentity> {
+): Promise<IAuthIdentity> {
   return ctx.authFactory.getCurrentIdentity();
 }
 
