@@ -1,31 +1,31 @@
 import * as DataLoader from 'dataloader';
 
 export interface IAuthConnector {
-  authenticate(id: string, password: string): Promise<AuthIdentity>;
-  register(id: string, password: string): Promise<AuthIdentity>;
-  authorize(token: string): Promise<AuthIdentity>;
-  loadBatch(ids: Array<string>): Promise<any>;
+  authenticate(id: string, password: string): Promise<IAuthIdentity>;
+  register(id: string, password: string): Promise<IAuthIdentity>;
+  authorize(token: string): Promise<IAuthIdentity>;
+  loadBatch(ids: string[]): Promise<any>;
 }
 
-export type AuthIdentity = {
+export interface IAuthIdentity {
   id: string;
   token: string;
 }
 
-export type Identity = {
+export interface IIdentity {
   id: string;
   password: string;
 }
 
 // todo: implement nicer grants
-export type Grant = {
-  domain: string,
-  actions: Array<string>,
+export interface IGrant {
+  domain: string;
+  actions: string[];
 }
 
 export class AuthFactory {
   private connector: IAuthConnector;
-  private authIdentity: AuthIdentity;
+  private authIdentity: IAuthIdentity;
   private loader;
 
   constructor(connector: IAuthConnector) {
@@ -35,19 +35,19 @@ export class AuthFactory {
 
   // Gets the current auth identity if token was provided and valid.
   // Check auth middlware for more details.
-  getCurrentIdentity(): AuthIdentity {
+  public getCurrentIdentity(): IAuthIdentity {
     return this.authIdentity;
   }
 
-  authenticate(id: string, password: string): Promise<AuthIdentity> {
+  public authenticate(id: string, password: string): Promise<IAuthIdentity> {
     return this.connector.authenticate(id, password);
   }
 
-  register(id: string, password: string): Promise<AuthIdentity> {
+  public register(id: string, password: string): Promise<IAuthIdentity> {
     return this.connector.register(id, password);
   }
 
-  async authorize(token: string): Promise<AuthIdentity> {
+  public async authorize(token: string): Promise<IAuthIdentity> {
     if (this.authIdentity) {
       return this.authIdentity;
     }

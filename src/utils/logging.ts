@@ -1,7 +1,6 @@
 import * as winston from 'winston';
 import env from '../env';
 
-
 // todo: break out file-logging to logging to a winstond server, to allow for
 // concurrency/clustering
 export default new winston.Logger({
@@ -15,4 +14,4 @@ export default new winston.Logger({
       filename: process.env.APP_LOG || '/dev/null', // todo: read from config
     }),
   ],
-})
+});

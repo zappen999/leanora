@@ -1,17 +1,17 @@
-import { IAuthConnector, AuthIdentity, Identity, Grant } from './factory';
+import { IAuthConnector, IAuthIdentity, IIdentity, IGrant } from './factory';
 import * as jwt from 'jsonwebtoken';
 import config from '../../config';
 
 // todo: in-memory db until we know which database engine/structure we want
-const identities: Identity[] = [];
+const identities: IIdentity[] = [];
 
 export interface ITokenData {
   id: string;
-  grants: Grant[];
+  grants: IGrant[];
 }
 
 export class AuthConnector implements IAuthConnector {
-  public async authenticate(id: string, password: string): Promise<AuthIdentity> {
+  public async authenticate(id: string, password: string): Promise<IAuthIdentity> {
     // todo: replace with real mechanism to authenticate this identity
     const identity = identities
       .find((i) => i.id === id && i.password === password);
@@ -22,42 +22,48 @@ export class AuthConnector implements IAuthConnector {
 
     // user was authenticated correctly, sign a token
 
-    const tokenData = {
+    const tokenData: ITokenData = {
       id: identity.id,
-      grants: []
-    } as ITokenData;
+      grants: [],
+    };
     const token = await this.signJWT(
       tokenData,
       config.auth.ttl,
-      config.auth.secret
+      config.auth.secret,
     );
 
     return {
       id: identity.id,
-      token
-    } as AuthIdentity;
+      token,
+    };
   }
 
-  authorize(token: string): Promise<AuthIdentity> {
+  public authorize(token: string): Promise<IAuthIdentity> {
     return this.verifyJWT(token, config.auth.secret);
   }
 
   // todo: implement real register funtionality
-  async register(id: string, password: string): Promise<AuthIdentity> {
-    identities.push({
+  public async register(id: string, password: string): Promise<IAuthIdentity> {
+    const identity: IIdentity = {
       id,
       password,
-    } as Identity);
+    };
+
+    identities.push(identity);
 
     return this.authenticate(id, password);
   }
 
+  public async loadBatch(ids: string[]): Promise<any> {
+    return [];
+  }
+
   protected async verifyJWT(
     token: string,
-    secret: string
-  ): Promise<AuthIdentity> {
-    return new Promise<AuthIdentity>((resolve, reject) => {
-      jwt.verify(token, secret, (err, decoded: AuthIdentity) => {
+    secret: string,
+  ): Promise<IAuthIdentity> {
+    return new Promise<IAuthIdentity>((resolve, reject) => {
+      jwt.verify(token, secret, (err, decoded: IAuthIdentity) => {
         if (err) {
           return reject(err);
         }
@@ -71,7 +77,7 @@ export class AuthConnector implements IAuthConnector {
   protected async signJWT(
     data: ITokenData,
     expiresIn: string,
-    secret: string
+    secret: string,
   ): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       jwt.sign(data, secret, { expiresIn }, (err, token) => {
@@ -82,9 +88,5 @@ export class AuthConnector implements IAuthConnector {
         return resolve(token);
       });
     });
-  }
-
-  async loadBatch(ids: Array<string>): Promise<any> {
-    return [];
   }
 }
