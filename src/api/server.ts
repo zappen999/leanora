@@ -16,8 +16,8 @@ app
   .use(tryAuth)
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(process.env.PORT, () => {
-    logger.info(`Listening on 0.0.0.0:${process.env.PORT}`);
+  .listen(process.env.API_PORT, () => {
+    logger.info(`Listening on 0.0.0.0:${process.env.API_PORT}`);
   });
 
 process.on('SIGTERM', () => {

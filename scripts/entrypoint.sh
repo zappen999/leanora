@@ -30,8 +30,7 @@ elif [ "$NODE_ENV" = "development" ]; then
   echo "API process $API_PID spawned"
 
   # Start app in development mode
-  # webpack magic? todo: start dev server
-  tail -f /dev/null & # tmp, replace this with dev server
+  npm run start-app &
   APP_PID="$!"
   echo "APP process $APP_PID spawned"
 fi

@@ -7,7 +7,7 @@ services:
     environment:
       NODE_ENV: 'development'
       APP_LOG: '/var/log/app.log'
-      PORT: 8000
+      API_PORT: 9000
     volumes:
       - ./src:/home/node/app/src
       - ./scripts:/home/node/app/scripts
@@ -15,5 +15,6 @@ services:
       - ./package-lock.json:/home/node/app/package-lock.json
       - ./tsconfig.json:/home/node/app/tsconfig.json
     ports:
-      - 8000:8000
+      - 9000:9000
       - 9222:9222
+      - 3000:3000

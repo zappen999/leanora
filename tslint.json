@@ -83,10 +83,6 @@
       "jsx-double"
     ],
     "radix":true,
-    "semicolon":[
-      true,
-      "never"
-    ],
     "switch-default":true,
     "trailing-comma":[
       false
