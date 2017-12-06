@@ -119,7 +119,7 @@
     "transform": {
       "^.+\\.css$": "<rootDir>/src/app/config/jest/cssTransform.js",
       "^.+\\.tsx?$": "<rootDir>/src/app/config/jest/typescriptTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/src/app/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
@@ -141,7 +141,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "<rootDir>/src/app/tsconfig.test.json"
+        "tsConfigFile": "tsconfig.test.json"
       }
     }
   },
