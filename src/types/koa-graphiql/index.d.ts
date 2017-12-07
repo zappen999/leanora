@@ -1,7 +1,7 @@
-import { Middleware } from 'koa';
+import { Middleware } from 'koa'
 
 declare module 'koa-graphiql' {
-  function Graphiql(settings): Middleware;
+  function Graphiql(settings: {}): Middleware
 
-  export = Graphiql;
+  export = Graphiql
 }
