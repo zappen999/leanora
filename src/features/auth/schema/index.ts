@@ -3,7 +3,7 @@ const AuthIdentity = `
     id: String
     token: String
   }
-`;
+`
 
-export const types = () => [AuthIdentity];
-export const resolvers = {};
+export const types = () => [AuthIdentity]
+export const resolvers = {}

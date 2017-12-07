@@ -8,6 +8,10 @@
     "no-implicit-dependencies":false,
     "no-submodule-imports":false,
     "object-literal-sort-keys":false,
+    "semicolon": [
+      true,
+      "never"
+    ],
     "align":[
       true,
       "parameters",

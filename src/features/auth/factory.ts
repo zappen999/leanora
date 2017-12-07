@@ -1,63 +1,63 @@
-import * as DataLoader from 'dataloader';
+import * as DataLoader from 'dataloader'
 
-export interface IAuthConnector {
-  authenticate(id: string, password: string): Promise<IAuthIdentity>;
-  register(id: string, password: string): Promise<IAuthIdentity>;
-  authorize(token: string): Promise<IAuthIdentity>;
-  loadBatch(ids: string[]): Promise<any>;
+export interface AuthConnector {
+  authenticate(id: string, password: string): Promise<AuthIdentity>
+  register(id: string, password: string): Promise<AuthIdentity>
+  authorize(token: string): Promise<AuthIdentity>
+  loadBatch(ids: string[]): Promise<[{}]> // todo: define type
 }
 
-export interface IAuthIdentity {
-  id: string;
-  token: string;
+export interface AuthIdentity {
+  id: string
+  token: string
 }
 
-export interface IIdentity {
-  id: string;
-  password: string;
+export interface Identity {
+  id: string
+  password: string
 }
 
 // todo: implement nicer grants
-export interface IGrant {
-  domain: string;
-  actions: string[];
+export interface Grant {
+  domain: string
+  actions: string[]
 }
 
 export class AuthFactory {
-  private connector: IAuthConnector;
-  private authIdentity: IAuthIdentity;
-  private loader;
+  private connector: AuthConnector
+  private authIdentity: AuthIdentity
+  private loader: {} // todo: define type
 
-  constructor(connector: IAuthConnector) {
-    this.connector = connector;
-    this.loader = new DataLoader(this.connector.loadBatch);
+  constructor(connector: AuthConnector) {
+    this.connector = connector
+    this.loader = new DataLoader(this.connector.loadBatch)
   }
 
   // Gets the current auth identity if token was provided and valid.
   // Check auth middlware for more details.
-  public getCurrentIdentity(): IAuthIdentity {
-    return this.authIdentity;
+  public getCurrentIdentity(): AuthIdentity {
+    return this.authIdentity
   }
 
-  public authenticate(id: string, password: string): Promise<IAuthIdentity> {
-    return this.connector.authenticate(id, password);
+  public authenticate(id: string, password: string): Promise<AuthIdentity> {
+    return this.connector.authenticate(id, password)
   }
 
-  public register(id: string, password: string): Promise<IAuthIdentity> {
-    return this.connector.register(id, password);
+  public register(id: string, password: string): Promise<AuthIdentity> {
+    return this.connector.register(id, password)
   }
 
-  public async authorize(token: string): Promise<IAuthIdentity> {
+  public async authorize(token: string): Promise<AuthIdentity> {
     if (this.authIdentity) {
-      return this.authIdentity;
+      return this.authIdentity
     }
 
     try {
       // store the authorization for future use within this request context
-      this.authIdentity = await this.connector.authorize(token);
-      return this.authIdentity;
+      this.authIdentity = await this.connector.authorize(token)
+      return this.authIdentity
     } catch (err) {
-      throw err;
+      throw err
     }
   }
 }

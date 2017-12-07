@@ -1,17 +1,17 @@
-const pkg = require('../package.json'); // tslint:disable-line
+const pkg = require('../package.json') // tslint:disable-line
 
-export interface IConfig {
+export interface Config {
   app: {
-    name: string;
-    version: string;
-  };
+    name: string
+    version: string
+  }
   auth: {
-    ttl: string;
-    secret: string;
-  };
+    ttl: string
+    secret: string
+  }
 }
 
-const config: IConfig = {
+const config: Config = {
   app: {
     name: pkg.name,
     version: pkg.version,
@@ -20,6 +20,6 @@ const config: IConfig = {
     ttl: '24h',
     secret: 'qwerty', // todo: something random
   },
-};
+}
 
-export default config;
+export default config

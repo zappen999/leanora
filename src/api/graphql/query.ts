@@ -1,10 +1,10 @@
-import Context from '../../context';
+import Context from '../../context'
 
 import {
   types as authTypes,
   resolvers as authResolvers,
-  IAuthIdentity,
-} from '../../features/auth';
+  AuthIdentity,
+} from '../../features/auth'
 
 const Query = `
   scalar Date
@@ -13,14 +13,14 @@ const Query = `
     # Current authenticated identity, based on provided token
     authIdentity: AuthIdentity
   }
-`;
+`
 
 async function authIdentity(
-  root,
-  args,
+  root: {}, // todo: define type
+  args: undefined,
   ctx: Context,
-): Promise<IAuthIdentity> {
-  return ctx.authFactory.getCurrentIdentity();
+): Promise<AuthIdentity> {
+  return ctx.authFactory.getCurrentIdentity()
 }
 
 export const resolvers = {
@@ -28,6 +28,6 @@ export const resolvers = {
     authIdentity,
   },
   ...authResolvers,
-};
+}
 
-export const types = () => [Query, authTypes];
+export const types = () => [Query, authTypes]

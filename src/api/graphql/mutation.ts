@@ -1,4 +1,5 @@
-import Context from '../../context';
+import Context from '../../context'
+import { AuthIdentity } from '../../features/auth/factory'
 
 const Mutation = `
   type Mutation {
@@ -16,35 +17,35 @@ const Mutation = `
       password: String!
     ): AuthIdentity
   }
-`;
+`
 
-interface IAuthenticateArgs {
-  id: string;
-  password: string;
+interface AuthenticateArgs {
+  id: string
+  password: string
 }
 
-type RegisterArgs = IAuthenticateArgs & {};
+type RegisterArgs = AuthenticateArgs & {}
 
 async function authenticate(
-  root,
-  args: IAuthenticateArgs,
+  root: {}, // todo: define type
+  args: AuthenticateArgs,
   ctx: Context,
-): Promise<any> {
-  return ctx.authFactory.authenticate(args.id, args.password);
+): Promise<{}> { // todo: define type
+  return ctx.authFactory.authenticate(args.id, args.password)
 }
 
 async function register(
-  root,
+  root: {}, // todo: define type
   args: RegisterArgs,
   ctx: Context,
-): Promise<any> {
-  return ctx.authFactory.register(args.id, args.password);
+): Promise<AuthIdentity> {
+  return ctx.authFactory.register(args.id, args.password)
 }
 
-export const types = () => [Mutation];
+export const types = () => [Mutation]
 export const resolvers = {
   Mutation: {
     authenticate,
     register,
   },
-};
+}
