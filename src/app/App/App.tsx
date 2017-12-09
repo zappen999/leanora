@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as styles from './App.scss'
-import TitleContainer from '../Title/TitleContainer'
+import TitleContainer from 'features/title/components'
 const logo = require('../assets/logo.svg')
 
 function App() {

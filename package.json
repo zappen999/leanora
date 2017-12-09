@@ -100,9 +100,9 @@
     "typings-for-css-modules-loader": "^1.7.0"
   },
   "scripts": {
-    "start-app": "node src/app/scripts/start.js",
-    "build-app": "node src/app/scripts/build.js",
-    "test-app": "node src/app/scripts/test.js --env=jsdom",
+    "start-app": "node src/scripts/start.js",
+    "build-app": "node src/scripts/build.js",
+    "test-app": "node src/scripts/test.js --env=jsdom",
     "precommit": "./node_modules/.bin/tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "bash": "docker exec -it $(./scripts/containername.sh) bash",
     "typeorm": "docker exec -it $(./scripts/containername.sh) ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm",
@@ -112,22 +112,22 @@
   "jest": {
     "mapCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/src/app/src/**/*.{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
-      "<rootDir>/src/app/config/polyfills.js",
-      "<rootDir>/src/app/config/enzyme-adapter.js"
+      "<rootDir>/src/config/polyfills.js",
+      "<rootDir>/src/config/enzyme-adapter.js"
     ],
     "testMatch": [
-      "<rootDir>/src/app/src/**/__tests__/**/*.ts?(x)",
-      "<rootDir>/src/app/src/**/?(*.)(spec|test).ts?(x)"
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
     "transform": {
-      "^.+\\.css$": "<rootDir>/src/app/config/jest/cssTransform.js",
-      "^.+\\.tsx?$": "<rootDir>/src/app/config/jest/typescriptTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/src/app/config/jest/fileTransform.js"
+      "^.+\\.css$": "<rootDir>/src/config/jest/cssTransform.js",
+      "^.+\\.tsx?$": "<rootDir>/src/config/jest/typescriptTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/src/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
@@ -162,8 +162,8 @@
     "extends": "react-app"
   },
   "leanConfig": {
-    "entires": {
-      "app": "src/app/"
+    "entries": {
+      "app": "src"
     }
   }
 }

@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+        "app/*": [ "app/*" ],
+        "features/*": [ "features/*" ]
+    },
     "outDir": "buildsystem/dist",
     "target": "es5",
     "lib": [
