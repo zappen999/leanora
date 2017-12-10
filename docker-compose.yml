@@ -8,6 +8,20 @@ services:
       NODE_ENV: 'development'
       APP_LOG: '/var/log/app.log'
       API_PORT: 9000
+      TYPEORM_CONNECTION: 'mysql'
+      TYPEORM_HOST: 'database'
+      TYPEORM_PORT: 3306
+      TYPEORM_USERNAME: 'root'
+      TYPEORM_PASSWORD: 'password'
+      TYPEORM_DATABASE: 'leanora'
+      TYPEORM_AUTO_SCHEMA_SYNC: 'true' # false in prod
+      TYPEORM_ENTITIES: 'src/features/**/entities/*.ts'
+      TYPEORM_SUBSCRIBERS: 'src/features/**/subscribers/*.ts'
+      TYPEORM_MIGRATIONS: 'src/features/**/migrations/*.ts'
+      # used for cli tool
+      TYPEORM_ENTITIES_DIR: 'src/api' 
+      TYPEORM_MIGRATIONS_DIR: 'src/api'
+      TYPEORM_SUBSCRIBERS_DIR: 'src/api'
     volumes:
       - ./src:/home/node/app/src
       - ./scripts:/home/node/app/scripts
@@ -18,3 +32,9 @@ services:
       - 9000:9000
       - 9222:9222
       - 3000:3000
+
+  database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'leanora'

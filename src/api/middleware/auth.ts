@@ -10,10 +10,10 @@ export async function tryAuth(ctx: KoaContext, next: () => Promise<{}>) {
     return next()
   }
 
-  const contextFactory = ctx.state.contextFactory as Context
+  const contextFacade = ctx.state.contextFacade as Context
 
   try {
-    await contextFactory.authFactory.authorize(token)
+    await contextFacade.membership.authorize(token)
   } catch (err) {
     return next()
   }

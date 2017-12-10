@@ -17,7 +17,7 @@ if (env.isDev()) {
 router.post('/', async (ctx: KoaContext, next: Middleware) => {
   await graphqlKoa({
     schema,
-    context: ctx.state.contextFactory as Context,
+    context: ctx.state.contextFacade as Context,
   })(ctx, next)
 })
 

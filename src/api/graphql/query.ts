@@ -1,33 +1,32 @@
 import Context from '../../context'
 
-import {
-  types as authTypes,
-  resolvers as authResolvers,
-  AuthIdentity,
-} from '../../features/auth'
+import { types as membershipTypes,
+  resolvers as membershipResolvers,
+  MembershipAuthResponse,
+} from '../../features/membership'
 
 const Query = `
   scalar Date
 
   type Query {
-    # Current authenticated identity, based on provided token
-    authIdentity: AuthIdentity
+    # Current authenticated membership, based on provided token
+    membership: MembershipAuthResponse
   }
 `
 
-async function authIdentity(
+function membership(
   root: {}, // todo: define type
   args: undefined,
   ctx: Context,
-): Promise<AuthIdentity> {
-  return ctx.authFactory.getCurrentIdentity()
+): MembershipAuthResponse {
+  return ctx.membership.getCurrentMembership()
 }
 
 export const resolvers = {
   Query: {
-    authIdentity,
+    membership,
   },
-  ...authResolvers,
+  ...membershipResolvers,
 }
 
-export const types = () => [Query, authTypes]
+export const types = () => [Query, membershipTypes]

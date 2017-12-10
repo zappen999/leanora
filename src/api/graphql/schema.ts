@@ -1,10 +1,11 @@
 import { makeExecutableSchema } from 'graphql-tools'
 import {
-  types as queryTypes,
+  types as querySchema,
   resolvers as queryResolvers,
 } from './query'
+
 import {
-  types as mutationTypes,
+  types as mutationSchema,
   resolvers as mutationResolvers,
 } from './mutation'
 
@@ -17,8 +18,8 @@ const schemaDefinition = `
 
 const combinedSchemas = [
   schemaDefinition,
-  queryTypes,
-  mutationTypes,
+  querySchema,
+  mutationSchema,
 ]
 
 const resolvers = {

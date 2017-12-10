@@ -1,18 +1,15 @@
-import { AuthFactory, AuthConnector } from './features/auth'
+import { MembershipFacade } from './features/membership'
 
-export interface ContextFactory {
-  authFactory: AuthFactory
+export interface ContextFacade {
+  membership: MembershipFacade
 }
 
-class Context implements ContextFactory {
-  public authFactory: AuthFactory
+class Context implements ContextFacade {
+  public membership: MembershipFacade
 
   constructor() {
-    // setup connectors
-    const authConnector = new AuthConnector()
-
-    // setup factories
-    this.authFactory = new AuthFactory(authConnector)
+    // setup facades
+    this.membership = new MembershipFacade()
   }
 }
 

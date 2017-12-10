@@ -1,26 +1,26 @@
 import Context from '../../context'
-import { AuthIdentity } from '../../features/auth/factory'
+import { MembershipAuthResponse } from '../../features/membership/facade'
 
 const Mutation = `
   type Mutation {
     authenticate(
       # Identifier for the identity, can be email, username etc.
-      id: String!
+      identifier: String!
       # Password for the identity
       password: String!
-    ): AuthIdentity
+    ): MembershipAuthResponse
 
     register(
       # Identifier for the identity, can be email, username etc.
-      id: String!
+      identifier: String!
       # Password for the identity
       password: String!
-    ): AuthIdentity
+    ): MembershipAuthResponse
   }
 `
 
 interface AuthenticateArgs {
-  id: string
+  identifier: string
   password: string
 }
 
@@ -30,16 +30,16 @@ async function authenticate(
   root: {}, // todo: define type
   args: AuthenticateArgs,
   ctx: Context,
-): Promise<{}> { // todo: define type
-  return ctx.authFactory.authenticate(args.id, args.password)
+): Promise<MembershipAuthResponse> { // todo: define type
+  return ctx.membership.authenticate(args.identifier, args.password)
 }
 
 async function register(
   root: {}, // todo: define type
   args: RegisterArgs,
   ctx: Context,
-): Promise<AuthIdentity> {
-  return ctx.authFactory.register(args.id, args.password)
+): Promise<MembershipAuthResponse> {
+  return ctx.membership.register(args.identifier, args.password)
 }
 
 export const types = () => [Mutation]

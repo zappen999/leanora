@@ -3,6 +3,7 @@ import * as bodyParser from 'koa-bodyparser'
 import logger from '../utils/logging'
 import { cors, tryAuth, injectContext, version } from './middleware'
 import router from './controllers'
+import './database'
 
 const app = new Koa()
 
