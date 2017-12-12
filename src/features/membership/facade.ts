@@ -1,6 +1,9 @@
 import * as jwt from 'jsonwebtoken'
 import config from '../../config'
 import { Membership } from './entities/membership'
+import { Profile } from '../profile/entities/profile'
+import { MembershipFactory } from './'
+import { ProfileFactory } from '../profile'
 
 export interface TokenContents {
   identifier: string
@@ -13,9 +16,10 @@ export interface MembershipAuthResponse extends TokenContents {
 export class MembershipFacade {
   protected lastAuthorizedMembershipResponse: MembershipAuthResponse
 
-  public getCurrentMembership(
-  ): MembershipAuthResponse {
-    return this.lastAuthorizedMembershipResponse
+  public async getCurrentMembership(): Promise<Membership> {
+    return await Membership.findOne({
+      identifier: this.lastAuthorizedMembershipResponse.identifier
+    }) as Membership
   }
 
   public async authenticate(
@@ -56,23 +60,41 @@ export class MembershipFacade {
     return this.lastAuthorizedMembershipResponse
   }
 
+  public async changePassword(
+    membership: Membership,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<Membership> {
+    if (!membership) {
+      throw new Error('Authorization required')
+    }
+
+    // check if provided password matches
+    await this.authenticate(
+      membership.identifier,
+      oldPassword,
+    )
+
+    await membership.setPassword(newPassword)
+    await membership.save()
+
+    return membership
+  }
+
   public async register(
     identifier: string,
-    password: string,
+    password: string
   ): Promise<MembershipAuthResponse> {
-    const membership = new Membership()
-    membership.identifier = identifier
-    await membership.setPassword(password)
-    await membership.save() // should throw if identifier exists already
+    const membership = await MembershipFactory.create(
+      identifier,
+      password,
+    )
+    await membership.save()
 
-    return {
-      identifier: membership.identifier,
-      token: await this.signJWT(
-        { identifier: membership.identifier },
-        config.auth.ttl,
-        config.auth.secret
-      ),
-    }
+    const profile = ProfileFactory.createFromMembership(membership)
+    await profile.save()
+
+    return this.authenticate(identifier, password)
   }
 
   protected async verifyJWT(

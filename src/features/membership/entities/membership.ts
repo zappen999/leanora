@@ -2,11 +2,13 @@ import {
   BaseEntity,
   Entity,
   Column,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   Index
 } from 'typeorm'
-
 import * as bcrypt from 'bcrypt'
+import { Profile } from '../../profile/entities/profile'
 
 @Entity()
 export class Membership extends BaseEntity {

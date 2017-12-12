@@ -1,3 +1,9 @@
+const Membership = `
+  type Membership {
+    identifier: String
+  }
+`
+
 const MembershipAuthResponse = `
   type MembershipAuthResponse {
     identifier: String
@@ -5,5 +11,8 @@ const MembershipAuthResponse = `
   }
 `
 
-export const types = () => [MembershipAuthResponse]
+export const types = () => [
+  Membership,
+  MembershipAuthResponse
+]
 export const resolvers = {}

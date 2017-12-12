@@ -1,5 +1,11 @@
 import Context from '../../context'
-import { MembershipAuthResponse } from '../../features/membership/facade'
+import {
+  MembershipAuthResponse
+} from '../../features/membership/facade'
+
+import {
+  Membership
+} from '../../features/membership'
 
 const Mutation = `
   type Mutation {
@@ -16,6 +22,11 @@ const Mutation = `
       # Password for the identity
       password: String!
     ): MembershipAuthResponse
+
+    changePassword(
+      currentPassword: String!
+      password: String!
+    ): Membership
   }
 `
 
@@ -25,21 +36,39 @@ interface AuthenticateArgs {
 }
 
 type RegisterArgs = AuthenticateArgs & {}
+interface ChangePasswordArgs {
+  currentPassword: string
+  password: string
+}
 
 async function authenticate(
   root: {}, // todo: define type
   args: AuthenticateArgs,
   ctx: Context,
 ): Promise<MembershipAuthResponse> { // todo: define type
-  return ctx.membership.authenticate(args.identifier, args.password)
+  return ctx.membershipFacade.authenticate(args.identifier, args.password)
 }
 
 async function register(
   root: {}, // todo: define type
   args: RegisterArgs,
   ctx: Context,
-): Promise<MembershipAuthResponse> {
-  return ctx.membership.register(args.identifier, args.password)
+) {
+  return ctx.membershipFacade.register(args.identifier, args.password)
+}
+
+async function changePassword(
+  root: {}, // todo: define type
+  args: ChangePasswordArgs,
+  ctx: Context,
+): Promise<Membership> {
+  const membership = await ctx.membershipFacade.getCurrentMembership()
+
+  return ctx.membershipFacade.changePassword(
+    membership,
+    args.currentPassword,
+    args.password,
+  )
 }
 
 export const types = () => [Mutation]
@@ -47,5 +76,6 @@ export const resolvers = {
   Mutation: {
     authenticate,
     register,
+    changePassword,
   },
 }

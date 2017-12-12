@@ -13,7 +13,7 @@ export async function tryAuth(ctx: KoaContext, next: () => Promise<{}>) {
   const contextFacade = ctx.state.contextFacade as Context
 
   try {
-    await contextFacade.membership.authorize(token)
+    await contextFacade.membershipFacade.authorize(token)
   } catch (err) {
     return next()
   }
