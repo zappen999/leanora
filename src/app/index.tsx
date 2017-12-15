@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import rootReducer from './reducers'
-import './index.css'
+import './index.scss'
 
 const store = createStore(
   rootReducer,
@@ -14,7 +14,7 @@ const store = createStore(
 )
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={ store }>
     <App />
   </Provider>,
   document.getElementById('root') as HTMLElement

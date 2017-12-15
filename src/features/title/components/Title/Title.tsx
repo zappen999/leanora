@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './style.scss'
+import * as styles from './style.scss'
 
 export interface Props {
   text: string,
@@ -7,19 +7,23 @@ export interface Props {
   onSetLanguage?: (lang: string) => void
 }
 
-export default function Title({text, size = 11, onSetLanguage}: Props) {
+export default function Title({
+  text,
+  size = 11,
+  onSetLanguage
+}: Props) {
   return (
     <div
-      style={{fontSize: size}}
-      className={'title'}
+      style={ {fontSize: size } }
+      className={ styles.title }
     >
-      {text}
+      { text }
 
       <button
         className="button"
-        onClick={() => onSetLanguage && onSetLanguage('EN')}
+        onClick={ () => onSetLanguage && onSetLanguage('EN') }
       >
-        {`set`}
+        { `set` }
       </button>
     </div>
   )
