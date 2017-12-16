@@ -1,10 +1,10 @@
 import Context from '../../context'
-import {
-  MembershipAuthResponse
-} from '../../features/membership/facade'
 
 import {
-  Membership
+  Membership,
+  MembershipAuthResponse,
+  types as membershipTypes,
+  resolvers as membershipResolvers,
 } from '../../features/membership'
 
 const Mutation = `
@@ -53,7 +53,7 @@ async function register(
   root: {}, // todo: define type
   args: RegisterArgs,
   ctx: Context,
-) {
+): Promise<MembershipAuthResponse> {
   return ctx.membershipFacade.register(args.identifier, args.password)
 }
 
@@ -71,11 +71,15 @@ async function changePassword(
   )
 }
 
-export const types = () => [Mutation]
+export const types = () => [
+  Mutation,
+  membershipTypes,
+]
 export const resolvers = {
   Mutation: {
     authenticate,
     register,
     changePassword,
   },
+  ...membershipResolvers,
 }

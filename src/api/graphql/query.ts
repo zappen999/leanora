@@ -24,7 +24,7 @@ const Query = `
 
 async function membership(
   root: {}, // todo: define type
-  args: undefined,
+  args: {},
   ctx: Context,
 ): Promise<Membership> {
   return await ctx.membershipFacade.getCurrentMembership() as Membership
@@ -32,7 +32,7 @@ async function membership(
 
 async function profile(
   root: {}, // todo: define type
-  args: undefined,
+  args: {},
   ctx: Context,
 ): Promise<Profile> {
   return await ctx.profileFacade.getProfileFromMembership(

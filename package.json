@@ -13,6 +13,7 @@
     "Microservice"
   ],
   "author": "Johan Kanefur <johan.canefur@gmail.com>",
+  "contributors": "Joel Roxell <joel.roxell@annevo.se> (https://github.com/JoelRoxell)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zappen999/leanora/issues"

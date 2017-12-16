@@ -24,7 +24,7 @@ if [ "$NODE_ENV" = "production" ]; then
 elif [ "$NODE_ENV" = "development" ]; then
   echo "Running in development mode..."
   # Start api in development mode
-  ./node_modules/.bin/nodemon --inspect=9222 --exec ./node_modules/.bin/ts-node src/api/server.ts &
+  ./node_modules/.bin/nodemon --inspect=9222 --exec ./node_modules/.bin/ts-node --no-cache src/api/server.ts &
 
   API_PID="$!"
   echo "API process $API_PID spawned"
