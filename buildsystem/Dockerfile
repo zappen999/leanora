@@ -9,6 +9,9 @@ COPY package.json .
 COPY package-lock.json .
 COPY tsconfig.json .
 
+RUN apt-get update
+RUN apt install netcat -y
+
 RUN npm install
 
 ENTRYPOINT [ "bash", "./scripts/entrypoint.sh" ]

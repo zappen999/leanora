@@ -23,6 +23,18 @@ if [ "$NODE_ENV" = "production" ]; then
   ./node_modules/.bin/ts-node src/api/server.ts &
 elif [ "$NODE_ENV" = "development" ]; then
   echo "Running in development mode..."
+
+  while ! nc -z database 3306
+  do
+    echo "Waiting for MySQL to initialize..."
+    sleep 2
+  done
+  echo "MySQL connection test succeeded"
+
+  # echo "Running migrations..."
+  # ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migrations:run
+
+  echo "Starting TS server"
   # Start api in development mode
   ./node_modules/.bin/nodemon --inspect=9222 --exec ./node_modules/.bin/ts-node --no-cache src/api/server.ts &
 
