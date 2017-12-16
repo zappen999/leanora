@@ -3,12 +3,12 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
-const p = require('../../../package.json')
+const p = require('../../package.json')
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
 const rootDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(rootDirectory, p.leanConfig.entires.app, relativePath);
+const resolveApp = relativePath => path.resolve(rootDirectory, p.leanConfig.entries.app, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
 
@@ -40,19 +40,20 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
-
 module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.tsx'),
-  appPackageJson: resolveApp('../../package.json'),
-  appSrc: resolveApp('src'),
+  appIndexJs: resolveApp('app/index.tsx'),
+  appPackageJson: resolveApp('../package.json'),
+  appSrc: resolveApp('../src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.ts'),
-  appNodeModules: resolveApp('../../node_modules'),
+  appNodeModules: resolveApp('../node_modules'),
   appTsConfig: resolveApp('tsconfig.json'),
-  publicUrl: getPublicUrl(resolveApp('../../package.json')),
-  servedPath: getServedPath(resolveApp('../../package.json')),
+  publicUrl: getPublicUrl(resolveApp('../package.json')),
+  servedPath: getServedPath(resolveApp('../package.json')),
+  app: resolveApp('app'),
+  features: resolveApp('features')
 };

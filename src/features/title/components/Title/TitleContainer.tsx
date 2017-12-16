@@ -1,8 +1,8 @@
 import { connect, Dispatch } from 'react-redux'
 
 import Title from './Title'
-import * as actions from '../actions'
-import { StoreState } from '../types'
+import * as actions from '../../actions'
+import { StoreState } from '../../types'
 
 export function mapStateToProps({ language }: StoreState) {
   return {
