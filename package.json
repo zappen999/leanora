@@ -104,7 +104,7 @@
     "start-app": "node src/app/scripts/start.js",
     "build-app": "node src/app/scripts/build.js",
     "test-app": "node src/app/scripts/test.js --env=jsdom",
-    "precommit": "./node_modules/.bin/tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "precommit": "./node_modules/.bin/tslint -c tslint.json 'src/**/[!1-9]*.{ts,tsx}'",
     "bash": "docker exec -it $(./scripts/containername.sh) bash",
     "typeorm": "docker exec -it $(./scripts/containername.sh) ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm",
     "migrations:up": "docker exec -it $(./scripts/containername.sh) ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migrations:run",

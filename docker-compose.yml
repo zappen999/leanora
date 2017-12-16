@@ -17,10 +17,10 @@ services:
       TYPEORM_AUTO_SCHEMA_SYNC: 'true' # false in prod
       TYPEORM_ENTITIES: 'src/features/**/entities/*.ts'
       TYPEORM_SUBSCRIBERS: 'src/features/**/subscribers/*.ts'
-      TYPEORM_MIGRATIONS: 'src/features/**/migrations/*.ts'
+      TYPEORM_MIGRATIONS: 'src/migrations/*.ts'
       # used for cli tool
       TYPEORM_ENTITIES_DIR: 'src/api' 
-      TYPEORM_MIGRATIONS_DIR: 'src/api'
+      TYPEORM_MIGRATIONS_DIR: 'src/migrations'
       TYPEORM_SUBSCRIBERS_DIR: 'src/api'
     volumes:
       - ./src:/home/node/app/src
