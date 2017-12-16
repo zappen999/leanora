@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm'
 import { Membership } from '../membership/entities/membership'
 
 export class ProfileFacade {
-  public getProfileFromMembership(membership: Membership) {
+  public getProfileFromMembership(membership: Membership|null) {
     if (membership == null) {
       return null
     }

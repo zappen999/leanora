@@ -16,7 +16,11 @@ export interface MembershipAuthResponse extends TokenContents {
 export class MembershipFacade {
   protected lastAuthorizedMembershipResponse: MembershipAuthResponse
 
-  public async getCurrentMembership(): Promise<Membership> {
+  public getCurrentMembership = async (): Promise<Membership|null> => {
+    if (!this.lastAuthorizedMembershipResponse) {
+      return null
+    }
+
     return await Membership.findOne({
       identifier: this.lastAuthorizedMembershipResponse.identifier
     }) as Membership
@@ -50,7 +54,7 @@ export class MembershipFacade {
     }
   }
 
-  public async authorize(token: string): Promise<MembershipAuthResponse> {
+  public authorize = async (token: string): Promise<MembershipAuthResponse> => {
     const tokenData = await this.verifyJWT(token, config.auth.secret)
     this.lastAuthorizedMembershipResponse = {
       identifier: tokenData.identifier,
@@ -60,12 +64,12 @@ export class MembershipFacade {
     return this.lastAuthorizedMembershipResponse
   }
 
-  public async changePassword(
-    membership: Membership,
+  public changePassword = async (
+    membership: Membership|null,
     oldPassword: string,
     newPassword: string
-  ): Promise<Membership> {
-    if (!membership) {
+  ): Promise<Membership> => {
+    if (membership == null) {
       throw new Error('Authorization required')
     }
 
@@ -81,10 +85,10 @@ export class MembershipFacade {
     return membership
   }
 
-  public async register(
+  public register = async (
     identifier: string,
     password: string
-  ): Promise<MembershipAuthResponse> {
+  ): Promise<MembershipAuthResponse> => {
     const membership = await MembershipFactory.create(
       identifier,
       password,
