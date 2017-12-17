@@ -1,10 +1,11 @@
 import { SchemaStitcher } from '../../api/graphql/schemastitcher'
 import Context from '../../context'
-import { Post, BlogFactory } from './'
+import { Post, Comment, BlogFactory } from './'
 import { stitcher as profileStitcher } from '../profile'
 
 const PostType = `
   type Post {
+    id: Int
     text: String
     createdAt: String
     author: Profile
@@ -14,6 +15,7 @@ const PostType = `
 
 const CommentType = `
   type Comment {
+    id: Int
     text: String
     createdAt: String
     author: Profile
@@ -42,6 +44,23 @@ async function createPost(
   return await ctx.blogFacade.savePost(post) as Post
 }
 
+interface CreateCommentArgs {
+  text: string
+  postId: number
+}
+
+async function createComment(
+  root: {}, // todo: define type
+  args: CreateCommentArgs,
+  ctx: Context,
+): Promise<Comment> {
+  const profile = await ctx.profileFacade.getProfileFromMembership(
+    await ctx.membershipFacade.getCurrentMembership()
+  )
+
+  return ctx.blogFacade.createComment(profile, args.postId, args.text)
+}
+
 export const stitcher = new SchemaStitcher({
   queryDefinition: `
     # Get blog posts
@@ -51,6 +70,11 @@ export const stitcher = new SchemaStitcher({
     createPost(
       text: String!
     ): Post
+
+    createComment(
+      text: String!
+      postId: Int!
+    ): Comment
   `,
   types: () => [
     PostType,
@@ -65,13 +89,23 @@ export const stitcher = new SchemaStitcher({
     // Root mutation resolvers
     Mutation: {
       createPost,
+      createComment,
     },
     // Custom leaf resolvers
     Post: {
       author: (post: Post, args: {}, ctx: Context) => {
         // fetch author by post.author
         return ctx.profileFacade.getProfileById(post.authorId)
-      }
+      },
+      replies: async (post: Post, args: {}, ctx: Context) => {
+        const replies = await ctx.blogFacade.getRepliesForPost(post.id)
+
+        return replies.map(async (reply) => ({
+          ...reply,
+          createdAt: new Date(reply.createdAt).toISOString(),
+          author: await ctx.profileFacade.getProfileById(reply.authorId),
+        }))
+      },
     }
   }
 })

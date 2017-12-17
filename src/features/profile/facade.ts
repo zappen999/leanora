@@ -4,7 +4,7 @@ import { Membership } from '../membership/entities/membership'
 import * as DataLoader from 'dataloader'
 
 export class ProfileFacade {
-  protected byIdLoader: DataLoader<number, Profile>
+  protected byIdLoader: DataLoader<number, Profile|null>
 
   constructor() {
     this.byIdLoader = new DataLoader(this.getBatchProfileByIds)
@@ -20,16 +20,18 @@ export class ProfileFacade {
       .getOne()
   }
 
-  public getProfileById(id: number): Promise<Profile> {
+  public getProfileById(id: number): Promise<Profile|null> {
     return this.byIdLoader.load(id)
   }
 
-  // todo: for ids that doesnt get found, we should provide null in the keys place
-  protected getBatchProfileByIds(ids: {}) {
-    return getRepository(Profile)
+  protected async getBatchProfileByIds(ids: number[]) {
+    const profiles = await getRepository(Profile)
       .createQueryBuilder('profile')
       .where('profile.id IN(:ids)')
       .setParameter('ids', ids)
       .getMany()
+
+    // make sure that keys that is not found gets null as value
+    return ids.map((id) => profiles.find((item) => item.id === id) || null)
   }
 }

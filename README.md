@@ -11,6 +11,7 @@
 ## Todo
 - Separate data loading from facade
 - Dependency injection
+- Use custom repositories instead of factories?
 
 ## Generate migrations
 We can use the migration tool that comes with typeorm. But we need to run it

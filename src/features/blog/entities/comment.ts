@@ -26,9 +26,16 @@ export class Comment extends BaseEntity {
   @ManyToOne((type) => Post, {
     cascadeRemove: true,
   })
+  public post: Post
+
+  @Column({ nullable: true })
+  public postId: number
 
   @JoinColumn()
   @OneToOne((type) => Profile)
   public author: Profile
+
+  @Column({ nullable: true })
+  public authorId: number
 
 }
