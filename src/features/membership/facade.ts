@@ -16,9 +16,9 @@ export interface MembershipAuthResponse extends TokenContents {
 export class MembershipFacade {
   protected lastAuthorizedMembershipResponse: MembershipAuthResponse
 
-  public getCurrentMembership = async (): Promise<Membership|null> => {
+  public getCurrentMembership = async (): Promise<Membership> => {
     if (!this.lastAuthorizedMembershipResponse) {
-      return null
+      throw new Error('Authentication required')
     }
 
     return await Membership.findOne({

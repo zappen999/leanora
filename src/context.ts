@@ -1,32 +1,23 @@
-import {
-  MembershipFacade,
-  MembershipFactory,
-} from './features/membership'
-
-import {
-  ProfileFacade,
-  ProfileFactory,
-} from './features/profile'
+import { MembershipFacade } from './features/membership'
+import { ProfileFacade } from './features/profile'
+import { BlogFacade } from './features/blog'
 
 export interface ContextFacade {
   membershipFacade: MembershipFacade
-  membershipFactory: MembershipFactory
   profileFacade: ProfileFacade
-  profileFactory: ProfileFactory
+  blogFacade: BlogFacade
 }
 
 class Context implements ContextFacade {
   public membershipFacade: MembershipFacade
-  public membershipFactory: MembershipFactory
   public profileFacade: ProfileFacade
-  public profileFactory: ProfileFactory
+  public blogFacade: BlogFacade
 
   constructor() {
     // setup facades
     this.membershipFacade = new MembershipFacade()
-    this.membershipFactory = MembershipFactory
     this.profileFacade = new ProfileFacade()
-    this.profileFactory = ProfileFactory
+    this.blogFacade = new BlogFacade()
   }
 }
 
