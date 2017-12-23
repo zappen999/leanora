@@ -22,6 +22,7 @@ services:
       TYPEORM_ENTITIES_DIR: 'src/api' 
       TYPEORM_MIGRATIONS_DIR: 'src/migrations'
       TYPEORM_SUBSCRIBERS_DIR: 'src/api'
+      SENDGRID_API_KEY: ''
     volumes:
       - ./src:/home/node/app/src
       - ./scripts:/home/node/app/scripts
